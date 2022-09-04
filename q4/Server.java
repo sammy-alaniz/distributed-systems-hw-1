@@ -1,4 +1,5 @@
 import java.io.*;
+import java.net.*;
 
 public class Server {
   public static void main (String[] args) throws FileNotFoundException, IOException{
@@ -28,5 +29,36 @@ public class Server {
     }
 
     // TODO: handle request from clients
+    // Chapter 6 : Distributed Programming
+    int len = 1024;
+    DatagramPacket dataPacket, returnPacket;
+    try
+    {
+      DatagramSocket dataSocket = new DatagramSocket(udpPort);
+      byte[] buf = new byte[len];
+      while(true)
+      {
+        try
+        {
+          dataPacket = new DatagramPacket(buf, buf.length);
+          dataSocket.receive(dataPacket);
+          String tmp = new String(dataPacket.getData());
+          System.out.println(tmp);
+          returnPacket = new DatagramPacket(dataPacket.getData(),
+                                            dataPacket.getLength(),
+                                            dataPacket.getAddress(),
+                                            dataPacket.getPort());
+          dataSocket.send(returnPacket);
+        }
+        catch (IOException e)
+        {
+          System.err.println(e);
+        }
+      }
+    }
+    catch (SocketException se)
+    {
+      System.err.println((se));
+    }
   }
 }
