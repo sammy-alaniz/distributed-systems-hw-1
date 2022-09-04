@@ -2,6 +2,35 @@ import java.io.*;
 import java.net.*;
 
 public class Server {
+
+  public static void parseBuffer(byte[] msgData) {
+    String msg = new String(msgData);
+    String[] tokens = msg.split(" ");
+
+    if (tokens[0].equals("setmode")) {
+      System.out.println("setmode hit");
+      // TODO: set the mode of communication for sending commands to the server 
+      // and display the name of the protocol that will be used in future
+    }
+    else if (tokens[0].equals("purchase")) {
+      System.out.println("purchase hit");
+      System.out.println(msg);
+      // TODO: send appropriate command to the server and display the
+      // appropriate responses form the server
+    } else if (tokens[0].equals("cancel")) {
+      // TODO: send appropriate command to the server and display the
+      // appropriate responses form the server
+    } else if (tokens[0].equals("search")) {
+      // TODO: send appropriate command to the server and display the
+      // appropriate responses form the server
+    } else if (tokens[0].equals("list")) {
+      // TODO: send appropriate command to the server and display the
+      // appropriate responses form the server
+    } else {
+      System.out.println("ERROR: No such command");
+    }
+  }
+
   public static void main (String[] args) throws FileNotFoundException, IOException{
     int tcpPort;
     int udpPort;
@@ -42,8 +71,9 @@ public class Server {
         {
           dataPacket = new DatagramPacket(buf, buf.length);
           dataSocket.receive(dataPacket);
-          String tmp = new String(dataPacket.getData());
-          System.out.println(tmp);
+
+          parseBuffer(dataPacket.getData());
+
           returnPacket = new DatagramPacket(dataPacket.getData(),
                                             dataPacket.getLength(),
                                             dataPacket.getAddress(),
