@@ -1,5 +1,7 @@
+import java.io.*;
+
 public class Server {
-  public static void main (String[] args) {
+  public static void main (String[] args) throws FileNotFoundException, IOException{
     int tcpPort;
     int udpPort;
     if (args.length != 3) {
@@ -14,7 +16,16 @@ public class Server {
     udpPort = Integer.parseInt(args[1]);
     String fileName = args[2];
 
+
+
     // parse the inventory file
+    // Geeks for Geeks : https://www.geeksforgeeks.org/bufferedreader-readline-method-in-java-with-examples/
+    FileReader fileReader = new FileReader(fileName);
+    BufferedReader buffReader = new BufferedReader(fileReader);
+    while (buffReader.ready())
+    {
+      System.out.println(buffReader.readLine());
+    }
 
     // TODO: handle request from clients
   }
