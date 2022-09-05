@@ -7,6 +7,8 @@ public class Server {
     String msg = new String(msgData);
     String[] tokens = msg.split(" ");
 
+    System.out.print(msg);
+
     if (tokens[0].equals("setmode")) {
       System.out.println("setmode hit");
       // TODO: set the mode of communication for sending commands to the server 
