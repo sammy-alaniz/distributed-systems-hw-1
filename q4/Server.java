@@ -2,6 +2,8 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 
+import Inventory.*;
+
 public class Server {
 
   public static void parseBuffer(byte[] msgData) {
@@ -32,30 +34,6 @@ public class Server {
     } else {
       System.out.println("ERROR: No such command");
     }
-  }
-
-  public static Map parseInventoryFile(String filePath) throws FileNotFoundException, IOException
-  {
-    // parse the inventory file
-    // Geeks for Geeks : https://www.geeksforgeeks.org/bufferedreader-readline-method-in-java-with-examples/
-    FileReader fileReader = new FileReader(filePath);
-    BufferedReader buffReader = new BufferedReader(fileReader);
-    Map<String,Integer> inventoryMap = new HashMap<String,Integer>();
-    while (buffReader.ready())
-    {
-      String readLine = buffReader.readLine();
-      String[] dataItem = readLine.split(" ");
-      if(dataItem.length > 1)
-      {
-        inventoryMap.put(dataItem[0], Integer.parseInt(dataItem[1]));
-      }
-    }
-
-    for(Map.Entry<String,Integer> entry : inventoryMap.entrySet())
-    {
-      System.out.println(entry.getKey() + " " + Integer.toString(entry.getValue()));
-    }
-    return inventoryMap;
   }
 
   public static void udpServer(Integer port)
@@ -111,12 +89,11 @@ public class Server {
     String fileName = args[2];
 
     // TODO: getters and setters for inventory map, how do we make this thread safe?
-    Map<String,Integer> inventoryMap = parseInventoryFile(fileName);
-
-    udpServer(udpPort);
 
 
-
-
+    //udpServer(udpPort);
+    Inventory inventory = new Inventory(fileName);
+    inventory.buyItem("xbox", 3);
+    inventory.printMap();
   }
 }
