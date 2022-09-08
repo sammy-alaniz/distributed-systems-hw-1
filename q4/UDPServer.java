@@ -40,10 +40,10 @@ public class UDPServer extends Thread {
                 //String msg = new String(dataPacket.getData());
                 //System.out.print(msg);
 
-                mParser.parseBuffer(dataPacket.getData());
+                String returnMessage = mParser.parseBuffer(dataPacket.getData());
 
-                returnPacket = new DatagramPacket(dataPacket.getData(),
-                                            dataPacket.getLength(),
+                returnPacket = new DatagramPacket(returnMessage.getBytes(),
+                                            returnMessage.length(),
                                             dataPacket.getAddress(),
                                             dataPacket.getPort());
                 dataSocket.send(returnPacket);
@@ -55,5 +55,30 @@ public class UDPServer extends Thread {
         }
     }
 
+    // todo: make a funcion that can send a message
+    public boolean send(byte[] msg)
+    {
+        try
+        {
+            dataPacket = new DatagramPacket(buf, buf.length);
+            dataSocket.receive(dataPacket);
+            //String msg = new String(dataPacket.getData());
+            //System.out.print(msg);
+
+            mParser.parseBuffer(dataPacket.getData());
+
+            returnPacket = new DatagramPacket(dataPacket.getData(),
+                                        dataPacket.getLength(),
+                                        dataPacket.getAddress(),
+                                        dataPacket.getPort());
+            dataSocket.send(returnPacket);
+        }
+        catch (IOException e)
+        {
+            System.err.println(e);
+            return false;
+        }
+        return true;
+    }
 }
 

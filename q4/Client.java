@@ -29,6 +29,11 @@ public class Client {
           buffer = echoline.getBytes();
           sPacket = new DatagramPacket(buffer, buffer.length, ia, port);
           dataSocket.send(sPacket);
+          byte[] rbuf = new byte[1024];
+          DatagramPacket returnPacket = new DatagramPacket(rbuf, 1024);
+          dataSocket.receive(returnPacket);
+          String msg = new String(returnPacket.getData());
+          System.out.print(msg);
           //byte[] rbuffer = new byte[len];
           //rPacket = new DatagramPacket(rbuffer, rbuffer.length);
           //dataSocket.send(rPacket);
